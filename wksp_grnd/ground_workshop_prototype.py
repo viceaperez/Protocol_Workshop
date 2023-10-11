@@ -1,8 +1,11 @@
 import os
 
 import openpyxl
+from openpyxl.cell import Cell
 from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
+
+from tipos import Elemento, TipoElemento, elementos
 
 project_pth: str = os.getcwd()
 res_pth: str = project_pth + "\\res"
@@ -19,11 +22,6 @@ sectores = {
     "PZ": "Patio Reactores"
 }
 
-elementos = {
-    "malla": "Puesta a Tierra Subterranea",
-    "cerco": "Cerco",
-}
-
 planos = {
     "planta": "SNN4008-E-PRN-13-EL-PL-0001-L0001",
     "pk": "SNN4008-E-PRN-13-EL-PL-0001-L0002",
@@ -37,7 +35,7 @@ planos = {
 ws: Worksheet = base_fl.worksheets[0]
 ws1: Worksheet = lista_fl.worksheets[0]
 
-checks = {
+checks: dict[str:Cell] = {
     "Bancoductos": ws.cell(12, 12),
     "Estructurales": ws.cell(12, 18),
     "Escalerillas": ws.cell(12, 24),
@@ -45,6 +43,12 @@ checks = {
     "Equipos": ws.cell(14, 18),
     "totros": ws.cell(14, 24),
 }
+
+solds: list[Cell] = []
+for i in range(0, 6):
+    for j in range(0, 2):
+        solds.append(ws.cell(18 + i, 22 + (j * 7)))
+    pass
 
 
 def set(r, c, val):
@@ -84,41 +88,63 @@ def flush_base():
     pass
 
 
-def resolve_elemento(tag_elem):  # todo refino de otros elementos
-    if "Diagonal" in tag_elem:
-        return elementos["malla"]
-    if "Cerco" in tag_elem:
-        return elementos["cerco"]
-
-    if "Patio" in tag_elem:
-        return elementos["malla"]
+def resolve_elemento(tag_elem) -> Elemento:  # todo refino de otros elementos
+    for tipo in TipoElemento:
+        if tipo.value.identificador.match(tag_elem):
+            return elementos[tipo]
     pass
 
 
-def resolve_plano(elemento, sector):  # todo euristica get plano
+def resolve_plano(sector):  # todo euristica get plano
     if sector == "PK":
-        if elemento == elementos["malla"]:
-            return planos["pk"]
-
         return planos["pk"]
     if sector == "PJ":
-        if elemento == elementos["malla"]:
-            return planos["pj"]
         return planos["pj"]
     if sector == "PATR" or sector == "PZ":
-        if elemento == elementos["malla"]:
-            return planos["atr_r"]
         return planos["atr_r"]
     pass
 
 
-def toggle_check(elemento):  # todo
-    if elemento == elementos["malla"]:
-        checks["totros"].value = "✔"
-        return
-    if elemento == elementos["cerco"]:
-        checks["Estructurales"].value = "✔"
-        checks["totros"].value = "✔"
+def toggle_check(elemento: Elemento):
+    for ck in checks.keys():
+        for cat in elemento.categorias:
+            if ck.lower() == cat.value.lower():
+                checks[ck].value = "✔"
+                pass
+    pass
+
+
+def toggle_cables(elemento: Elemento):
+    for i in range(0, len(elemento.cables)):
+        set(19 + i, 3, elemento.cables[i].calibre)
+        set(19 + i, 7, elemento.cables[i].aislacion)
+        set(19 + i, 9, elemento.cables[i].equipos)
+        set(19 + i, 11, elemento.cables[i].estructura)
+        set(19 + i, 13, elemento.cables[i].tierra)
+        set(19 + i, 15, "=SUM(I" + str(19 + i) + ":N" + str(19 + i) + ")")
+    pass
+
+
+def toggle_soldaduras(elemento: Elemento):
+    for i in range(len(solds)):
+        solds[i].value = elemento.soldaduras[i]
+        pass
+
+
+def toggle_approval():
+    for j in range(0, 12):
+        set(25 + j, 15, "✔")
+    pass
+
+
+def toggle_signatures():
+    set(50, 5, "José Godoy Espinoza")
+    set(51, 5, "Supervisor Eléctrico")
+    # set(54, 5, "")  # TODO fecha de los protocolos
+
+    set(50, 12, "Claudio Boris Hurtado G.")
+    set(51, 12, "Jefe Terreno")
+    # set(54,12,"") #TODO fecha de los protocolos
     pass
 
 
@@ -143,55 +169,23 @@ for i in range(2, max_line):
     tag = get(i, 2)
     set(8, 24, tag)
 
-    elemento: str = resolve_elemento(tag)
-    set(7, 6, elemento)
+    elemento: Elemento = resolve_elemento(tag)
+    set(7, 6, elemento.tipo.value.nombre)
 
-    plano: str = resolve_plano(elemento, sector)
+    plano: str = resolve_plano(sector)
     set(9, 9, plano)
 
     toggle_check(elemento)
 
-    for j in range(0, 3):
-        cable_4 = get(i, 6 + j)
-        print(cable_4)
-        if cable_4 == "-":
-            set(19, 9 + (2 * j), cable_4)
-        else:
-            set(19, 9 + (2 * j), float(cable_4))
+    toggle_cables(elemento)
 
-        pass
+    toggle_soldaduras(elemento)
 
-    for j in range(0, 3):
-        cable_2 = get(i, 9 + j)
-        if cable_2 == "-":
-            set(20, 9 + (2 * j), cable_2)
-        else:
-            set(20, 9 + (2 * j), float(cable_2))
-        pass
+    toggle_approval()
 
-    for j in range(0, 5):
-        for k in range(0, 2):
-            cant_sold: str
-            cant_sold = get(i, 12 + (2 * j) + k)
-            set(18 + j, 22 + (k * 7), cant_sold)
-            pass
-        pass
+    toggle_signatures()
 
-    for j in range(0, 12):
-        set(25 + j, 15, "✔")
-
-    set(19, 15, "=SUM(I19:N19)")
-    set(20, 15, "=SUM(I20:N20)")
-
-    set(49, 5, "Camilo Miño")
-    set(50, 5, "Supervisor Eléctrico")
-    set(54, 5, "")  # TODO fecha de los protocolos
-
-    set(49, 12, "Claudio Boris Hurtado G.")
-    set(50, 12, "Jefe Terreno")
-    # set(54,12,"") #TODO fecha de los protocolos
-
-    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT.xlsx"
+    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT-"+tag+".xlsx"
     base_fl.save(destiny_fl)
 
     pass
