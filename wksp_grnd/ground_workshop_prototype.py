@@ -15,6 +15,19 @@ base_fl: Workbook = openpyxl.load_workbook(base_fl_pth)
 lista_fl_pth: str = res_pth + "\\lista.xlsx"
 lista_fl: Workbook = openpyxl.load_workbook(lista_fl_pth, read_only=True)
 
+
+def ensure_paths():
+    lst: list[str] = ["res", "destiny_files"]
+    dir_tree: list[str] = os.listdir(project_pth)
+    for pth in lst:
+        if pth not in dir_tree:
+            os.mkdir(pth)
+        pass
+    pass
+
+
+ensure_paths()
+
 sectores = {
     "PK": "Patio 500kV",
     "PJ": "Patio 220kV",
@@ -185,7 +198,7 @@ for i in range(2, max_line):
 
     toggle_signatures()
 
-    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT-"+tag+".xlsx"
+    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT-" + tag + ".xlsx"
     base_fl.save(destiny_fl)
 
     pass
