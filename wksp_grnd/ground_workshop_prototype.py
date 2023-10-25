@@ -5,7 +5,7 @@ from openpyxl.cell import Cell
 from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
-from tipos import Elemento, TipoElemento, elementos
+from tipos import Elemento, elementos
 
 project_pth: str = os.getcwd()
 res_pth: str = project_pth + "\\res"
@@ -102,9 +102,9 @@ def flush_base():
 
 
 def resolve_elemento(tag_elem) -> Elemento:  # todo refino de otros elementos
-    for tipo in TipoElemento:
-        if tipo.value.identificador.match(tag_elem):
-            return elementos[tipo]
+    for tipo in elementos.values():
+        if tipo.patron.match(tag_elem):
+            return tipo
     pass
 
 
@@ -151,6 +151,7 @@ def toggle_approval():
 
 
 def toggle_signatures():
+    # TODO: ACTUALIZAR NOMBE SUPERVISOR
     set(50, 5, "José Godoy Espinoza")
     set(51, 5, "Supervisor Eléctrico")
     # set(54, 5, "")  # TODO fecha de los protocolos
@@ -162,28 +163,23 @@ def toggle_signatures():
 
 
 for i in range(2, max_line):
-    estado_interno = get(i, 5)
-    if estado_interno == "Entregado a calidad":
-        continue
-        pass
-
-    if estado_interno != "ok":
+    to_print = ws1.cell(i, 12).value
+    if to_print != 1:
         continue
         pass
 
     flush_base()
 
-    corr: str = get(i, 1).zfill(3)
+    corr: str = get(i, 3).zfill(3)
     set(6, 29, corr)
 
     sector = get(i, 4)
     set(8, 5, sectores[sector])
-
     tag = get(i, 2)
     set(8, 24, tag)
 
     elemento: Elemento = resolve_elemento(tag)
-    set(7, 6, elemento.tipo.value.nombre)
+    set(7, 6, elemento.nombre)
 
     plano: str = resolve_plano(sector)
     set(9, 9, plano)
@@ -198,7 +194,7 @@ for i in range(2, max_line):
 
     toggle_signatures()
 
-    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT-" + tag + ".xlsx"
+    destiny_fl: str = destiny_pth + "\\" + corr + "-PMT-" + tag.replace("/", "_") + ".xlsx"
     base_fl.save(destiny_fl)
 
     pass
