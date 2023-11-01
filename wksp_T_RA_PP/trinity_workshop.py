@@ -1,4 +1,5 @@
 import os
+import re
 
 import openpyxl
 from openpyxl.cell import Cell
@@ -10,38 +11,79 @@ class TrinityWorkshop:
     project_pth: str = os.getcwd()
     res_pth: str = project_pth + "\\res"
     destiny_pth: str = project_pth + "\\destiny_files"
-    src_pth = res_pth + "\\MATRIZ DE TENDIDO.xlsx"
-    circ_source: Worksheet = openpyxl.load_workbook(res_pth, data_only=True, read_only=True).woksheets[0]
+    origin_pth: str = project_pth + "\\origin_files"
+    src_pth = res_pth + "\\MATRIZ DE TENDIDO.txt"
+    wb = open(src_pth, "r")
 
     starting_corr = 0
+    db: list[dict[str:Cell]] = []
 
     @classmethod
-    def gen(cls):
-        max_row = cls.circ_source.max_row
-        for row in range(7, max_row):
-            fields: dict[str:Cell] = {
-                "tag": cls.circ_source.cell(row, 2),
-                "tipo_cable": cls.circ_source.cell(row, 3),
-                "desde": cls.circ_source.cell(row, 4),
-                "hasta": cls.circ_source.cell(row, 5),
-                "n_hebras": cls.circ_source.cell(row, 7),
-                "n_ptas": cls.circ_source.cell(row, 8),
-                "largo": cls.circ_source.cell(row, 13),
-                "homologacion": cls.circ_source.cell(row, 20)
+    def fetch(cls):
+        for row in cls.wb:
+            pts = row.split("\t")
+            fields: dict[str:str] = {
+                "tag": pts[0].strip(),
+                "tipo_cable": pts[1].strip(),
+                "desde": pts[2].strip(),
+                "hasta": pts[3].strip(),
+                "n_hebras": pts[5].strip(),
+                "n_ptas": pts[6].strip(),
+                "ubicacion": pts[7].strip(),
+                "largo": pts[4].strip(),
+                "homologacion": pts[8].strip(),
             }
-            fields["t"]
-
+            cls.db.append(fields)
             pass
-
         pass
+
+    @classmethod
+    def find(cls, tag):
+        for f in cls.db:
+            if f["tag"] == tag:
+                return f
+            pass
+        pass
+
+    @classmethod
+    def elem(cls, idx):
+        return cls.db[idx]
+
+    pass
+
+    @classmethod
+    def len(cls):
+        return len(cls.db)
 
     pass
 
 
 class TendidoWorkshop:
+    planos: dict[str:str] = {
+        "Planta": "SNN4008-E-PRN-14-EL-PL-0001-L0001",
+        "PK": "SNN4008-E-PRN-14-EL-PL-0002-L0001",
+        "SalaPK_1_2": "SNN4008-E-PRN-14-EL-PL-0008-L0001",
+        "SalaPK_3_4": "SNN4008-E-PRN-14-EL-PL-0009-L0001",
+        "PJ": "SNN4008-E-PRN-14-EL-PL-0003-L0001",
+        "SalaPJ_1_2": "SNN4008-E-PRN-14-EL-PL-0011-L0001",
+        "SalaPJ_3": "SNN4008-E-PRN-14-EL-PL-0012-L0001",
+        "PATR": "SNN4008-E-PRN-14-EL-PL-0004-L0001",
+        "PZ": "SNN4008-E-PRN-14-EL-PL-0005-L0001",
+        "SSGG": "SNN4008-E-PRN-14-EL-PL-0010-L0001"
+    }
+
     res_pth = TrinityWorkshop.res_pth + "\\T"
     working_template: Workbook = openpyxl.load_workbook(res_pth + "\\Protocolo Tendido de conductores electricos.xlsx")
     working_ws: Worksheet = working_template.worksheets[0]
+
+    tags_to_gen = []
+    corrs = []
+    fl = open(TrinityWorkshop.origin_pth + "\\out.txt", "r")
+    for l in fl:
+        pts = l.strip().split("\t")
+        tags_to_gen.append(pts[0])
+        corrs.append(pts[1])
+        pass
 
     @classmethod
     def set(cls, r, c, val):
@@ -49,7 +91,7 @@ class TendidoWorkshop:
         pass
 
     fields: dict[str:Cell] = {
-        "correlativo": working_ws.cell(10, 23),
+        "correlativo": working_ws.cell(12, 23),
         "plano": working_ws.cell(13, 7),
         "fecha": working_ws.cell(13, 23),
         "check_control": working_ws.cell(17, 7),
@@ -76,19 +118,156 @@ class TendidoWorkshop:
         pass
 
     @classmethod
-    def inprint(cls):
+    def inprint(cls, fields: dict[str:Cell], corr):
+
+        pts = fields["tipo_cable"].split(" ")
+
+        cls.fields["correlativo"].value = corr
+        cls.fields["plano"].value = cls.resolve_plano(fields["ubicacion"], fields["desde"], fields["hasta"])
+        cls.fields["fecha"].value = "05/06/2023"
+        cls.toggle_field(fields["tag"])
+        cls.fields["tag"].value = fields["tag"]
+        cls.fields["seccion"].value = pts[0] + " " + pts[1]
+        cls.fields["aislacion"].value = pts[2]
+        cls.fields["desde"].value = fields["desde"]
+        cls.fields["hasta"].value = fields["hasta"]
+        cls.fields["longitud"].value = fields["largo"]
+        cls.toggle_checks(fields["tag"])
+        cls.fields["elabora_nombre"].value = "Jose Godoy"
+        cls.fields["elabora_cargo"].value = "Supervisor"
+        # cls.fields["elabora_fecha"].value=corr
+        cls.fields["revisa_nombre"].value = "Claudio Boris Hurtado G."
+        cls.fields["revisa_cargo"].value = "Jefe Terreno"
+        # cls.fields["revisa_fecha"].value=corr
+
         pass
 
     @classmethod
     def gen(cls):
-        cls.fetch()
-        cls.inprint()
+        for i in range(len(cls.tags_to_gen)):
+            fields = TrinityWorkshop.find(cls.tags_to_gen[i])
+            cls.inprint(fields, cls.corrs[i])
+            cls.working_template.save(
+                TrinityWorkshop.destiny_pth + "\\" + cls.corrs[i] + "-T_" + fields["tag"] + ".xlsx")
         pass
 
     pass
 
+    @classmethod
+    def toggle_field(cls, tag):
+        if re.match("W(.)+$", tag, re.IGNORECASE):
+            cls.fields["check_control"].value = "✔"
+            cls.fields["check_pantalla_y"].value = "✔"
+            cls.fields["check_fuerza"].value = ""
+            cls.fields["check_pantalla_n"].value = ""
+            return
+        cls.fields["check_fuerza"].value = "✔"
+        cls.fields["check_pantalla_n"].value = "✔"
+        cls.fields["check_control"].value = ""
+        cls.fields["check_pantalla_y"].value = ""
+        pass
+
+    @classmethod
+    def resolve_plano(cls, ub, desde, hasta):
+        if ub:
+            if re.match("500", ub):
+                return cls.planos["PK"]
+            if re.match("220", ub):
+                return cls.planos["PJ"]
+            if re.match("casa", ub, re.IGNORECASE):
+                return cls.planos["SSGG"]
+            pass
+        desde_main = desde.split("+")[0]
+        hasta_main = hasta.split("+")[0]
+
+        if re.match("PK", desde_main):
+            if re.match("PK", hasta_main):
+                return cls.planos["PK"]
+
+        if re.match("^SKD1(.)+$", desde_main, re.IGNORECASE):
+            if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_1_2"]
+            if re.match("^SKD2(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD3(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD4(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+        if re.match("^SKD2(.)+$", desde_main, re.IGNORECASE):
+            if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_1_2"]
+            if re.match("^SKD2(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD3(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD4(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+        if re.match("^SKD3(.)+$", desde_main, re.IGNORECASE):
+            if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD2(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD3(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_3_4"]
+            if re.match("^SKD4(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_3_4"]
+        if re.match("^SKD4(.)+$", desde_main, re.IGNORECASE):
+            if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD2(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["PK"]
+            if re.match("^SKD3(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_3_4"]
+            if re.match("^SKD4(.)+$", hasta_main, re.IGNORECASE):
+                return cls.planos["SalaPK_3_4"]
+        if re.match("SJD1", desde_main):
+            if re.match("SJD1", desde_main):
+                return cls.planos["SalaPJ_1_2"]
+            if re.match("SJD2", desde_main):
+                return cls.planos["SalaPJ_1_2"]
+            if re.match("SJD3", desde_main):
+                return cls.planos["PJ"]
+
+        if re.match("^tdc(.)+$", desde_main, re.IGNORECASE):
+            return cls.planos["SSGG"]
+        if re.match("^tgc(.)+$", desde_main, re.IGNORECASE):
+            return cls.planos["SSGG"]
+        if re.match("^tdc(.)+$", hasta_main, re.IGNORECASE):
+            return cls.planos["SSGG"]
+        if re.match("^tgc(.)+$", hasta_main, re.IGNORECASE):
+            return cls.planos["SSGG"]
+        if re.match("^PK(.)+$", desde_main, re.IGNORECASE):
+            return cls.planos["PK"]
+        if re.match("^PJ(.)+$", desde_main, re.IGNORECASE):
+            return cls.planos["PJ"]
+
+        if re.match("PZ(.)+", desde_main):
+            if re.match("SKD", hasta_main):
+                return cls.planos["Planta"]
+            if re.match("PCZ(.)+", hasta):
+                return cls.planos["PZ"]
+        if re.match("PATR(.)+", desde):
+            if re.match("SKD(.)+", hasta):
+                return cls.planos["Planta"]
+            if re.match("PATR(.)+", hasta):
+                return cls.planos["PATR"]
+        if re.match("(.)*(BAT)(.)*", desde):
+            if re.match("(.)*(BAT)(.)*", hasta):
+                return cls.planos["SSGG"]
+        print("A: " + desde + "\nB: " + hasta + "\nNo coincide con plano")
+        # todo
+
+        pass
+
+    @classmethod
+    def toggle_checks(cls, tag):
+        for i in range(27, 36):
+            cls.working_ws.cell(i, 16, "✔")
+        pass
+
 
 class AislacionWorkshop:
+
     pass
 
 
@@ -96,4 +275,6 @@ class PuntoPuntoWorkshop:
     pass
 
 
+TrinityWorkshop.fetch()
+TendidoWorkshop.gen()
 pass
