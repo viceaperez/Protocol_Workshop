@@ -22,6 +22,9 @@ class Alumb:
 
 
 class AlumbradoWorkshop:
+    patios_excluidos = [
+        "CI",
+    ]
     project_pth: str = os.getcwd()
     res_pth: str = project_pth + "\\res"
     destiny_pth: str = project_pth + "\\destiny_files"
@@ -65,6 +68,11 @@ class AlumbradoWorkshop:
                 al.ubicacion = pts[3].strip()
             except IndexError:
                 al.ubicacion = ""
+
+            if al.patio in cls.patios_excluidos:
+                continue
+
+
             al.corr = str(Alumb.correlative_counter).zfill(3)
             Alumb.correlative_counter += 1
             cls.data.append(al)
