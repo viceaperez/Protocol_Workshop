@@ -1,0 +1,416 @@
+P-1	CI	Poste
+P-2	CI	Poste	
+P-3	CI	Poste	
+P-4	CI	Poste	
+P-5	CI	Poste	
+P-6	CI	Poste	
+P-7	CI	Poste	
+P-8	CI	Poste	
+P-9	CI	Poste	
+P-10	CI	Poste	
+P-11	CI	Poste	
+P-12	CI	Poste	
+P-13	CI	Poste	
+P-14	CI	Poste	
+P-15	CI	Poste	
+P-16	CI	Poste	
+P-17	CI	Poste	
+P-18	CI	Poste	
+P-19	CI	Poste	
+P-20	CI	Poste	
+P-21	CI	Poste	
+P-22	CI	Poste	
+P-23	CI	Poste	
+P-24	CI	Poste	
+P-25	CI	Poste	
+P-26	CI	Poste	
+P-27	CI	Poste	
+P-29	CI	Poste	
+P-30	CI	Poste	
+P-31	CI	Poste	
+P-32	CI	Poste	
+P-33	CI	Poste	
+P-34	CI	Poste	
+P-35	CI	Poste	
+P-36	CI	Poste	
+P-37	CI	Poste	
+P-38	CI	Poste	
+P-39	CI	Poste	
+P-40	CI	Poste	
+P-41	CI	Poste	
+P-42	CI	Poste	
+P-43	CI	Poste	
+P-44	CI	Poste	
+P-45	CI	Poste	
+P-46	CI	Poste	
+P-47	CI	Poste	
+P-48	CI	Poste	
+P-49	CI	Poste	
+P-50	CI	Poste	
+P-51	CI	Poste	
+P-52	CI	Poste	
+P-53	CI	Poste	
+P-54	CI	Poste	
+P-55	CI	Poste	
+P-56	CI	Poste	
+P-57	CI	Poste	
+P-58	CI	Poste	
+P-59	CI	Poste	
+P-60	CI	Poste	
+P-61	CI	Poste	
+P-62	CI	Poste	
+P-63	CI	Poste	
+P-64	CI	Poste	
+P-65	CI	Poste	
+P-66	CI	Poste	
+P-67	CI	Poste	
+P-68	CI	Poste	
+P-69	CI	Poste	
+P-70	CI	Poste	
+P-71	CI	Poste	
+P-72	CI	Poste	
+P-73	CI	Poste	
+P-148	PK	Poste	DK1
+P-149	PK	Poste	DK1
+P-150	PK	Poste	DK1
+P-151	PK	Poste	DK1
+P-153	PK	Poste	DK1
+P-154	PK	Poste	DK1
+P-155	PK	Poste	DK1
+P-156	PK	Poste	DK1
+P-227	PK	Poste	DK1
+P-226	PK	Poste	DK1
+P-132	PK	Poste	DK1
+P-131	PK	Poste	DK1
+P-130	PK	Poste	DK1
+P-129	PK	Poste	DK1
+P-128	PK	Poste	DK1
+P-127	PK	Poste	DK1
+P-126	PK	Poste	DK1
+P-125	PK	Poste	DK1
+P-120	PK	Poste	DK1
+P-119	PK	Poste	DK1
+P-118	PK	Poste	DK1
+P-117	PK	Poste	DK1
+P-116	PK	Poste	DK1
+P-115	PK	Poste	DK1
+P-114	PK	Poste	DK1
+P-113	PK	Poste	DK1
+P-65	PK	Poste	DK2
+P-66	PK	Poste	DK2
+P-67	PK	Poste	DK2
+P-68	PK	Poste	DK2
+P-69	PK	Poste	DK2
+P-70	PK	Poste	DK2
+P-71	PK	Poste	DK2
+P-72	PK	Poste	DK2
+P-73	PK	Poste	DK2
+P-74	PK	Poste	DK2
+P-75	PK	Poste	DK2
+P-76	PK	Poste	DK2
+P-77	PK	Poste	DK2
+P-78	PK	Poste	DK2
+P-79	PK	Poste	DK2
+P-80	PK	Poste	DK2
+P-85	PK	Poste	DK2
+P-86	PK	Poste	DK2
+P-87	PK	Poste	DK2
+P-88	PK	Poste	DK2
+P-89	PK	Poste	DK2
+P-90	PK	Poste	DK2
+P-91	PK	Poste	DK2
+P-92	PK	Poste	DK2
+P-93	PK	Poste	DK2
+P-94	PK	Poste	DK2
+P-95	PK	Poste	DK2
+P-96	PK	Poste	DK2
+P-97	PK	Poste	DK2
+P-98	PK	Poste	DK2
+P-99	PK	Poste	DK2
+P-100	PK	Poste	DK2
+P-07	PK	Poste	DK3
+P-08	PK	Poste	DK3
+P-61	PK	Poste	DK3
+P-62	PK	Poste	DK3
+P-44	PK	Poste	DK3
+P-45	PK	Poste	DK3
+P-59	PK	Poste	DK3
+P-60	PK	Poste	DK3
+P-11	PK	Poste	DK3
+P-12	PK	Poste	DK3
+P-57	PK	Poste	DK3
+P-58	PK	Poste	DK3
+P-14	PK	Poste	DK3
+P-16	PK	Poste	DK3
+P-55	PK	Poste	DK3
+P-56	PK	Poste	DK3
+P-21	PK	Poste	DK3
+P-22	PK	Poste	DK3
+P-52	PK	Poste	DK3
+P-53	PK	Poste	DK3
+P-28	PK	Poste	DK3
+P-29	PK	Poste	DK3
+P-50	PK	Poste	DK3
+P-51	PK	Poste	DK3
+P-30	PK	Poste	DK3
+P-31	PK	Poste	DK3
+P-48	PK	Poste	DK3
+P-49	PK	Poste	DK3
+P-36	PK	Poste	DK3
+P-37	PK	Poste	DK3
+P-46	PK	Poste	DK3
+P-47	PK	Poste	DK3
+P-09	PK	Poste	DK4
+P-10 	PK	Poste	DK4
+P-174	PK	Poste	DK4
+P-175	PK	Poste	DK4
+P-13	PK	Poste	DK4
+P-15	PK	Poste	DK4
+P-176	PK	Poste	DK4
+P-177	PK	Poste	DK4
+P-19	PK	Poste	DK4
+P-20	PK	Poste	DK4
+P-179	PK	Poste	DK4
+P-180	PK	Poste	DK4
+P-26	PK	Poste	DK4
+P-27	PK	Poste	DK4
+P-144	PK	Estructura	DK1
+P-145	PK	Estructura	DK1
+P-146	PK	Estructura	DK1
+P-147	PK	Estructura	DK1
+P-157	PK	Estructura	DK1
+P-158	PK	Estructura	DK1
+P-159	PK	Estructura	DK1
+P-160	PK	Estructura	DK1
+P-224	PK	Estructura	DK1
+P-225	PK	Estructura	DK1
+P-140	PK	Estructura	DK1
+P-139	PK	Estructura	DK1
+P-138	PK	Estructura	DK1
+P-137	PK	Estructura	DK1
+P-136	PK	Estructura	DK1
+P-135	PK	Estructura	DK1
+P-134	PK	Estructura	DK1
+P-133	PK	Estructura	DK1
+P-112	PK	Estructura	DK1
+P-111	PK	Estructura	DK1
+P-110	PK	Estructura	DK1
+P-109	PK	Estructura	DK1
+P-108	PK	Estructura	DK1
+P-107	PK	Estructura	DK1
+P-106	PK	Estructura	DK1
+P-105	PK	Estructura	DK1
+P-222	PK	Estructura	DK2
+P-223	PK	Estructura	DK2
+P-02	PK	Estructura	DK4
+P-171	PK	Estructura	DK4
+P-03	PK	Estructura	DK4
+P-04	PK	Estructura	DK4
+P-172	PK	Estructura	DK4
+P-42	PK	Estructura	DK4
+P-43	PK	Estructura	DK4
+P-181	PK	Estructura	DK4
+P-182	PK	Estructura	DK4
+P-33	PK	Estructura	DK4
+P-32	PK	Estructura	DK4
+P-183	PK	Estructura	DK4
+P-184	PK	Estructura	DK4
+P-41	PK	Estructura	DK4
+P-35	PK	Estructura	DK4
+P-34	PK	Estructura	DK4
+P-239	PK	Estructura	DK1
+P-143	PK	Estructura	DK1
+P-152	PK	Estructura	DK1
+P-162	PK	Estructura	DK1
+P-240	PK	Estructura	DK1
+P-161	PK	Estructura	DK1
+P-141	PK	Estructura	DK1
+P-142	PK	Estructura	DK1
+P-124	PK	Estructura	DK1
+P-123	PK	Estructura	DK1
+P-122	PK	Estructura	DK1
+P-121	PK	Estructura	DK1
+P-104	PK	Estructura	DK1
+P-103	PK	Estructura	DK1
+P-238	PK	Estructura	DK1
+P-237	PK	Estructura	DK1
+P-235	PK	Estructura	DK2
+P-236	PK	Estructura	DK2
+P-63	PK	Estructura	DK2
+P-64	PK	Estructura	DK2
+P-81	PK	Estructura	DK2
+P-82	PK	Estructura	DK2
+P-83	PK	Estructura	DK2
+P-84	PK	Estructura	DK2
+P-101	PK	Estructura	DK2
+P-102	PK	Estructura	DK2
+P-231	PK	Estructura	DK2
+P-233	PK	Estructura	DK3
+P-05	PK	Estructura	DK3
+P-234	PK	Estructura	DK3
+P-06	PK	Estructura	DK3
+P-18	PK	Estructura	DK3
+P-24 	PK	Estructura	DK3
+P-54	PK	Estructura	DK3
+P-25	PK	Estructura	DK3
+P-38	PK	Estructura	DK3
+P-230	PK	Estructura	DK3
+P-40	PK	Estructura	DK3
+P-229	PK	Estructura	DK3
+P-232	PK	Estructura	DK4
+P-203	PK	Estructura	DK4
+P-01	PK	Estructura	DK4
+P-17	PK	Estructura	DK4
+P-178	PK	Estructura	DK4
+P-26	PK	Estructura	DK4
+P-185	PK	Estructura	DK4
+P-228	PK	Estructura	DK4
+P-39	PK	Estructura	DK4
+P-18	PATR	Poste	
+P-17	PATR	Poste	
+P-25	PATR	Poste	
+P-29	PATR	Poste	
+P-02	PATR	Estructura	
+P-01	PATR	Estructura	
+P-26	PATR	Estructura	
+P-04	PATR	Estructura	
+P-03	PATR	Estructura	
+P-24	PATR	Estructura	
+P-12	PATR	Estructura	
+P-22	PATR	Estructura	
+P-23	PATR	Estructura	
+P-21	PATR	Estructura	
+P-19	PATR	Estructura	
+P-20	PATR	Estructura	
+P-16	PATR	Muro	
+P-08	PATR	Muro	
+P-11	PATR	Muro	
+P-15	PATR	Muro	
+P-07	PATR	Muro	
+P-10	PATR	Muro	
+P-14	PATR	Muro	
+P-06	PATR	Muro	
+P-09	PATR	Muro	
+P-05	PATR	Muro	
+P-13	PATR	Muro	
+P-27	PATR	Muro	
+P-28	PATR	Muro	
+P-11	PZ	Estructura	
+P-30	PZ	Estructura	
+P-27	PZ	Estructura	
+P-13	PZ	Estructura	
+P-12	PZ	Estructura	
+P-31	PZ	Estructura	
+P-29	PZ	Estructura	
+P-28	PZ	Estructura	
+P-14	PZ	Estructura	
+P-23	PZ	Estructura	
+P-24	PZ	Estructura	
+P-25	PZ	Estructura	
+P-04	PZ	Estructura	
+P-16	PZ	Estructura	
+P-03	PZ	Estructura	
+P-02	PZ	Estructura	
+P-15	PZ	Estructura	
+P-01	PZ	Estructura	
+P-26	PZ	Estructura	
+P-22	PZ	Muro	
+P-10	PZ	Muro	
+P-09	PZ	Muro	
+P-21	PZ	Muro	
+P-08	PZ	Muro	
+P-20	PZ	Muro	
+P-07	PZ	Muro	
+P-19	PZ	Muro	
+P-06	PZ	Muro	
+P-18	PZ	Muro	
+P-05	PZ	Muro	
+P-17	PZ	Muro	
+P-29	PJ	Poste	DJ1
+P-32	PJ	Poste	DJ1
+P-112	PJ	Poste	DJ1
+P-26	PJ	Poste	DJ1
+P-39	PJ	Poste	DJ1
+P-40	PJ	Poste	DJ1
+P-27	PJ	Poste	DJ1
+P-28	PJ	Poste	DJ1
+P-30	PJ	Poste	DJ1
+P-31	PJ	Poste	DJ1
+P-110	PJ	Poste	DJ1
+P-34	PJ	Poste	DJ1
+P-99	PJ	Poste	DJ1
+P-100	PJ	Poste	DJ1
+P-101	PJ	Poste	DJ2
+P-102	PJ	Poste	DJ2
+P-44	PJ	Poste	DJ2
+P-105	PJ	Poste	DJ2
+P-45	PJ	Poste	DJ2
+P-46	PJ	Poste	DJ2
+P-50	PJ	Poste	DJ2
+P-51	PJ	Poste	DJ2
+P-52	PJ	Poste	DJ2
+P-53	PJ	Poste	DJ2
+P-10	PJ	Poste	DJ2
+P-09	PJ	Poste	DJ2
+P-11	PJ	Poste	DJ2
+P-12	PJ	Poste	DJ2
+P-61	PJ	Poste	DJ3
+P-65	PJ	Poste	DJ3
+P-66	PJ	Poste	DJ3
+P-13	PJ	Poste	DJ3
+P-14	PJ	Poste	DJ3
+P-41	PJ	Estructura	DJ1
+P-35	PJ	Estructura	DJ1
+P-33	PJ	Estructura	DJ1
+P-113	PJ	Estructura	DJ1
+P-23	PJ	Estructura	DJ1
+P-106	PJ	Estructura	DJ1
+P-08	PJ	Estructura	DJ1
+P-59	PJ	Estructura	DJ3
+P-60	PJ	Estructura	DJ3
+P-71	PJ	Estructura	DJ3
+P-67	PJ	Estructura	DJ3
+P-68	PJ	Estructura	DJ3
+P-107	PJ	Estructura	DJ3
+P-114	PJ	Estructura	DJ1
+P-37	PJ	Estructura	DJ1
+P-115	PJ	Estructura	DJ1
+P-116	PJ	Estructura	DJ1
+P-36	PJ	Estructura	DJ1
+P-38	PJ	Estructura	DJ1
+P-98	PJ	Estructura	DJ1
+P-24	PJ	Estructura	DJ1
+P-96	PJ	Estructura	DJ1
+P-97	PJ	Estructura	DJ1
+P-25	PJ	Estructura	DJ1
+P-47	PJ	Estructura	DJ1
+P-21	PJ	Estructura	DJ1
+P-01	PJ	Estructura	DJ1
+P-22	PJ	Estructura	DJ1
+P-54	PJ	Estructura	DJ1
+P-02	PJ	Estructura	DJ1
+P-03	PJ	Estructura	DJ1
+P-117	PJ	Estructura	DJ2
+P-118	PJ	Estructura	DJ2
+P-42	PJ	Estructura	DJ2
+P-43	PJ	Estructura	DJ2
+P-94	PJ	Estructura	DJ2
+P-95	PJ	Estructura	DJ2
+P-48	PJ	Estructura	DJ2
+P-49	PJ	Estructura	DJ2
+P-55	PJ	Estructura	DJ2
+P-56	PJ	Estructura	DJ2
+P-04	PJ	Estructura	DJ2
+P-05	PJ	Estructura	DJ2
+P-119	PJ	Estructura	DJ3
+P-120	PJ	Estructura	DJ3
+P-58	PJ	Estructura	DJ3
+P-57	PJ	Estructura	DJ3
+P-62	PJ	Estructura	DJ3
+P-92	PJ	Estructura	DJ3
+P-64	PJ	Estructura	DJ3
+P-63	PJ	Estructura	DJ3
+P-69	PJ	Estructura	DJ3
+P-70	PJ	Estructura	DJ3
+P-06	PJ	Estructura	DJ3
+P-07	PJ	Estructura	DJ3
