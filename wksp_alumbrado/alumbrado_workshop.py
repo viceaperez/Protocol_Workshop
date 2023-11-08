@@ -1,42 +1,10 @@
 import os
+import re
 
 import openpyxl
 from openpyxl.cell import Cell
 from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
-
-
-class Table:
-    def __init__(self, nw: Cell, ne: Cell, sw: Cell, se: Cell, data: Cell):
-        self.title = None
-        self.title_cell = None
-        self.nw_cell: Cell = nw
-        self.ne_cell: Cell = ne
-        self.sw_cell: Cell = sw
-        self.se_cell: Cell = se
-        self.get_title()
-        self.get_subtitle()
-        self.get_headers()
-
-    def belongs(self, cell: Cell) -> bool:
-        if self.nw_cell.column > cell.column:
-            return False
-        if self.nw_cell.row < cell.row:
-            return False
-        if self.ne_cell.column < cell.column:
-            return False
-        if self.sw_cell.row > cell.row:
-            return False
-        return True
-
-    pass
-
-    def get_title(self):
-        self.title_cell: Cell = self.nw_cell
-        #TODO: seguir aquí
-        self.title_cell.
-        self.title: str = self.title_cell.value
-        pass
 
 
 class Alumb:
@@ -57,56 +25,108 @@ class AlumbradoWorkshop:
     project_pth: str = os.getcwd()
     res_pth: str = project_pth + "\\res"
     destiny_pth: str = project_pth + "\\destiny_files"
-    src_pth = res_pth + "\\matriz.xlsx"
+    src_pth = res_pth + "\\matriz.txt"
 
-    source: Worksheet = openpyxl.load_workbook(res_pth, data_only=True, read_only=True).woksheets[0]
-
-    src_sheets: dict[str:Worksheet] = {
-        "Caminos interiores": source["CAMINOS INTERIORES"],
-        "PK": source["P. 500KV"],
-        "PATR": source["P.ATR"],
-        "PZ": source["P.REACTORES"],
-        "PJ": source["P.220KV"],
-    }
+    # source: Worksheet = openpyxl.load_workbook(res_pth, data_only=True, read_only=True).woksheets[0]
+    source = open(src_pth)
 
     working_template: Workbook = openpyxl.load_workbook(
         res_pth + "\\Protocolo de montaje de luminarias  SSEE Parinas.xlsx")
 
-    starting_corr = 0
+    ws: Worksheet = working_template.worksheets[0]
+
+    starting_corr = 2
 
     data: list[Alumb] = []
 
+    fields: dict[str:Cell] = {
+        "correlativo": ws.cell(5, 12),
+        "fecha_trabajo": ws.cell(6, 12),
+        "descripcion": ws.cell(7, 4),
+        "area_trabajo": ws.cell(7, 8),
+        "elaboro_nombre": ws.cell(36, 2),
+        "elaboro_cargo": ws.cell(38, 2),
+        "elaboro_fecha": ws.cell(40, 2),
+        "reviso_nombre": ws.cell(5, 36),
+        "reviso_cargo": ws.cell(38, 5),
+        "reviso_fecha": ws.cell(40, 5)
+    }
+
     @classmethod
     def fetch(cls):
-        for sh in cls.src_sheets:
-            sh: Worksheet
-            headers: list[Cell] = cls.fetch_headers(sh)
-
+        Alumb.correlative_counter = cls.starting_corr
+        for line in cls.source:
+            pts = line.split("\t")
+            al = Alumb()
+            al.tag = pts[0].strip()
+            al.patio = pts[1].strip()
+            al.tipo = pts[2].strip()
+            try:
+                al.ubicacion = pts[3].strip()
+            except IndexError:
+                al.ubicacion = ""
+            al.corr = str(Alumb.correlative_counter).zfill(3)
+            Alumb.correlative_counter += 1
+            cls.data.append(al)
             pass
-
-    @classmethod
-    def fetch_headers(cls, sh: Worksheet) -> list[Cell]:
-        result: list[Cell] = []
-        max_row = sh.max_row
-        max_col = sh.max_column
-        col_idx = 0
-        while col_idx < max_row:
-            row_idx = 0
-            while row_idx < max_col:
-                c: Cell = sh.cell(row_idx, col_idx)
-                if c.value in None:
-                    continue
-                    pass
-
-                result.append(c)
-
-                col_idx += 1
-                pass
-
-            row_idx += 1
-            pass
-        return result
         pass
 
+    @classmethod
+    def gen(cls):
+        for d in cls.data:
+            cls.inprint(d)
+            cls.working_template.save(
+                cls.destiny_pth + "\\" + str(d.corr) + "-PML-" + d.patio + "-" + d.tag.replace("-", "") + ".xlsx"
+            )
+            pass
+
+        pass
+
+    @classmethod
+    def inprint(cls, alumb: Alumb):
+        cls.fields["correlativo"].value = alumb.corr
+        cls.fields["fecha_trabajo"].value = "23-10-2023"
+        cls.fields["descripcion"].value = alumb.tipo + " / " + alumb.tag
+        cls.fields["area_trabajo"].value = cls.translate_area(alumb.patio, alumb.ubicacion)
+        pass
+
+    @classmethod
+    def translate_area(cls, patio, sector):
+        val = cls.resolve_patio(patio)
+        val += " " + cls.resolve_sector(sector)
+
+        return val
+
+    @classmethod
+    def resolve_patio(cls, patio):
+        if patio == "PK":
+            return "Patio 500kV"
+            pass
+        elif patio == "PJ":
+            return "Patio 220kV"
+            pass
+        elif patio == "PATR":
+            return "Patio ATR"
+            pass
+        elif patio == "PZ":
+            return "Patio Reactores"
+            pass
+        elif patio == "CI":
+            return "Caminos Interiores"
+        pass
+
+    @classmethod
+    def resolve_sector(cls, sector):
+        if sector == "":
+            return ""
+
+        return re.sub("D[KJ]", "Diagonal ", sector)
+        pass
+
+    pass
+
+
+AlumbradoWorkshop.fetch()
+AlumbradoWorkshop.gen()
 
 pass

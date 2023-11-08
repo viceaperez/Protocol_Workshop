@@ -1,7 +1,6 @@
 import os
 import re
 from enum import Enum
-from aenum import extend_enum
 
 import openpyxl
 from openpyxl.workbook import Workbook
