@@ -72,7 +72,6 @@ class AlumbradoWorkshop:
             if al.patio in cls.patios_excluidos:
                 continue
 
-
             al.corr = str(Alumb.correlative_counter).zfill(3)
             Alumb.correlative_counter += 1
             cls.data.append(al)
