@@ -1,5 +1,5 @@
 /venv
 /.idea
 
-#*.xlsx
+*.xlsx
 *.pdf
