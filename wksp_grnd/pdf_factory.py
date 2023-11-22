@@ -8,7 +8,6 @@ destiny_pth: str = project_pth + "\\destiny_files"
 origin_pth: str = project_pth + "\\origin_files"
 
 fl_lst = os.listdir(origin_pth)
-
 excel = client.Dispatch("Excel.Application")
 for file in fl_lst:
     pth = origin_pth + "\\" + file
@@ -16,4 +15,4 @@ for file in fl_lst:
     work_sheets = sheets.Worksheets[0]
     out_pth = destiny_pth + "\\" + file.replace(".xlsx", ".pdf")
     work_sheets.ExportAsFixedFormat(0, out_pth)
-    excel.Quit()
+    sheets.Close()
