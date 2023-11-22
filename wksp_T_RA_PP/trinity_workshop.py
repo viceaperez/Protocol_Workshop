@@ -801,9 +801,9 @@ class PuntoPuntoWorkshop:
 
 
 kinds = [
-    "T",
-    "RA",
-    # "PP",
+    # "T",
+    # "RA",
+    "PP",
 ]
 
 
