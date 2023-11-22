@@ -8,7 +8,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 
 class Alumb:
-    correlative_counter = 0
+    correlative_counter: (int, None) = None
 
     def __init__(self):
         self.tag: (str, None) = None
@@ -22,43 +22,28 @@ class Alumb:
 
 
 class AlumbradoWorkshop:
-    patios_excluidos = [
-        "CI",
-    ]
     project_pth: str = os.getcwd()
     res_pth: str = project_pth + "\\res"
     destiny_pth: str = project_pth + "\\destiny_files"
     src_pth = res_pth + "\\matriz.txt"
 
-    # source: Worksheet = openpyxl.load_workbook(res_pth, data_only=True, read_only=True).woksheets[0]
-    source = open(src_pth)
-
-    working_template: Workbook = openpyxl.load_workbook(
-        res_pth + "\\Protocolo de montaje de luminarias  SSEE Parinas.xlsx")
-
-    ws: Worksheet = working_template.worksheets[0]
-
     starting_corr = 2
 
-    data: list[Alumb] = []
+    patios_excluidos = [
+        "CI",
+        # "PK",
+        # "PJ",
+        # "PZ",
+        # "PATR",
+    ]
 
-    fields: dict[str:Cell] = {
-        "correlativo": ws.cell(5, 12),
-        "fecha_trabajo": ws.cell(6, 12),
-        "descripcion": ws.cell(7, 4),
-        "area_trabajo": ws.cell(7, 8),
-        "elaboro_nombre": ws.cell(36, 2),
-        "elaboro_cargo": ws.cell(38, 2),
-        "elaboro_fecha": ws.cell(40, 2),
-        "reviso_nombre": ws.cell(5, 36),
-        "reviso_cargo": ws.cell(38, 5),
-        "reviso_fecha": ws.cell(40, 5)
-    }
+    data: list[Alumb] = []
 
     @classmethod
     def fetch(cls):
         Alumb.correlative_counter = cls.starting_corr
-        for line in cls.source:
+        source = open(cls.src_pth)
+        for line in source:
             pts = line.split("\t")
             al = Alumb()
             al.tag = pts[0].strip()
@@ -69,40 +54,15 @@ class AlumbradoWorkshop:
             except IndexError:
                 al.ubicacion = ""
 
-            if al.patio in cls.patios_excluidos:
+            if al.patio in AlumbradoWorkshop.patios_excluidos:
                 continue
 
             al.corr = str(Alumb.correlative_counter).zfill(3)
             Alumb.correlative_counter += 1
             cls.data.append(al)
             pass
+        source.close()
         pass
-
-    @classmethod
-    def gen(cls):
-        for d in cls.data:
-            cls.inprint(d)
-            cls.working_template.save(
-                cls.destiny_pth + "\\" + str(d.corr) + "-PML-" + d.patio + "-" + d.tag.replace("-", "") + ".xlsx"
-            )
-            pass
-
-        pass
-
-    @classmethod
-    def inprint(cls, alumb: Alumb):
-        cls.fields["correlativo"].value = alumb.corr
-        cls.fields["fecha_trabajo"].value = "23-10-2023"
-        cls.fields["descripcion"].value = alumb.tipo + " / " + alumb.tag
-        cls.fields["area_trabajo"].value = cls.translate_area(alumb.patio, alumb.ubicacion)
-        pass
-
-    @classmethod
-    def translate_area(cls, patio, sector):
-        val = cls.resolve_patio(patio)
-        val += " " + cls.resolve_sector(sector)
-
-        return val
 
     @classmethod
     def resolve_patio(cls, patio):
@@ -126,14 +86,120 @@ class AlumbradoWorkshop:
     def resolve_sector(cls, sector):
         if sector == "":
             return ""
-
         return re.sub("D[KJ]", "Diagonal ", sector)
         pass
 
     pass
 
 
-AlumbradoWorkshop.fetch()
-AlumbradoWorkshop.gen()
+class AlumbradoCanalizadoWorkshop:
+    # todo
+    pass
 
+    @classmethod
+    def fetch(cls):
+        #todo datos por tipo alumb
+        pass
+
+    @classmethod
+    def gen(cls):
+        for d in AlumbradoWorkshop.data:
+            cls.inprint(d)
+            nm = str(d.corr) + "-PC-" + d.patio + "-" + d.tag.replace("-", "") + ".xlsx"
+            pth = AlumbradoWorkshop.destiny_pth + "\\" + nm
+            cls.working_template.save(pth)
+            pass
+
+
+
+class AlumbradoMontajeWorkshop:
+    src_pth = AlumbradoWorkshop.res_pth + "\\matriz.txt"
+
+    working_template: Workbook = openpyxl.load_workbook(
+        AlumbradoWorkshop.res_pth + "\\Protocolo de montaje de luminarias  SSEE Parinas.xlsx")
+
+    ws: Worksheet = working_template.worksheets[0]
+
+    fields: dict[str:Cell] = {
+        "correlativo": ws.cell(5, 12),
+        "fecha_trabajo": ws.cell(6, 12),
+        "descripcion": ws.cell(7, 4),
+        "area_trabajo": ws.cell(7, 8),
+        "elaboro_nombre": ws.cell(36, 2),
+        "elaboro_cargo": ws.cell(38, 2),
+        "elaboro_fecha": ws.cell(40, 2),
+        "reviso_nombre": ws.cell(5, 36),
+        "reviso_cargo": ws.cell(38, 5),
+        "reviso_fecha": ws.cell(40, 5)
+    }
+
+    @classmethod
+    def fetch(cls):
+        pass
+
+    @classmethod
+    def gen(cls):
+        for d in AlumbradoWorkshop.data:
+            cls.inprint(d)
+            nm = str(d.corr) + "-PML-" + d.patio + "-" + d.tag.replace("-", "") + ".xlsx"
+            pth = AlumbradoWorkshop.destiny_pth + "\\" + nm
+            cls.working_template.save(pth)
+            pass
+
+        pass
+
+    @classmethod
+    def inprint(cls, alumb: Alumb):
+        cls.fields["correlativo"].value = alumb.corr
+        cls.fields["fecha_trabajo"].value = "23-10-2023"
+        cls.fields["descripcion"].value = alumb.tipo + " / " + alumb.tag
+        cls.fields["area_trabajo"].value = cls.translate_area(alumb.patio, alumb.ubicacion)
+        pass
+
+    @classmethod
+    def translate_area(cls, patio, sector):
+        val = AlumbradoWorkshop.resolve_patio(patio)
+        val += " " + AlumbradoWorkshop.resolve_sector(sector)
+
+        return val
+
+    pass
+
+
+class AlumbradoTendidoWorkshop:
+    # todo
+    pass
+
+
+class AlumbradoConexionadoWorkshop:
+    # todo
+    pass
+
+
+kinds = [
+    "Montaje",
+    "Canalizado",
+    "Tendido",
+    "Conexionado",
+]
+
+
+def start(kinds: list[str]):
+    AlumbradoWorkshop.fetch()
+    if "Montaje" in kinds:
+        AlumbradoMontajeWorkshop.fetch()
+        AlumbradoMontajeWorkshop.gen()
+    if "Canalizado" in kinds:
+        AlumbradoCanalizadoWorkshop.fetch()
+        AlumbradoCanalizadoWorkshop.gen()
+    if "Tendido" in kinds:
+        AlumbradoTendidoWorkshop.fetch()
+        AlumbradoTendidoWorkshop.gen()
+    if "Conexionado" in kinds:
+        AlumbradoConexionadoWorkshop.fetch()
+        AlumbradoConexionadoWorkshop.gen()
+    pass
+
+
+start(kinds)
 pass

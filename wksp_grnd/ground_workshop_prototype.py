@@ -101,14 +101,14 @@ def flush_base():
     pass
 
 
-def resolve_elemento(tag_elem) -> Elemento:  # todo refino de otros elementos
+def resolve_elemento(tag_elem) -> Elemento:
     for tipo in elementos.values():
         if tipo.patron.match(tag_elem):
             return tipo
     pass
 
 
-def resolve_plano(sector):  # todo euristica get plano
+def resolve_plano(sector):
     if sector == "PK":
         return planos["pk"]
     if sector == "PJ":
