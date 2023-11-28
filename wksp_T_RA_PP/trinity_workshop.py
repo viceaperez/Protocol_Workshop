@@ -581,7 +581,7 @@ class PuntoPuntoWorkshop:
         "check_alumbrado": working_ws.cell(17, 16),
         "check_fuerza": working_ws.cell(17, 23),
         "check_pantalla_y": working_ws.cell(17, 29),
-        "check_pantalla_n": working_ws.cell(17, 5),
+        "check_pantalla_n": working_ws.cell(17, 33),
         "tag": working_ws.cell(19, 9),
         "tag_2": working_ws.cell(36, 17),
         "seccion": working_ws.cell(20, 9),
@@ -801,8 +801,8 @@ class PuntoPuntoWorkshop:
 
 
 kinds = [
-    # "T",
-    # "RA",
+    "T",
+    "RA",
     "PP",
 ]
 
