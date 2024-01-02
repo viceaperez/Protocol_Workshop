@@ -152,7 +152,7 @@ def toggle_approval():
 
 def toggle_signatures():
     # TODO: ACTUALIZAR NOMBE SUPERVISOR
-    set(50, 5, "Alejandro Moraga")
+    set(50, 5, "Jose Godoy Espinoza")
     set(51, 5, "Supervisor Eléctrico")
     # set(54, 5, "")  # TODO fecha de los protocolos
 

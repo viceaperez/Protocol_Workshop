@@ -17,8 +17,8 @@ for file in fl_lst:
     work_sheets = sheets.Worksheets[0]
     out_pth = destiny_pth + "\\" + file.replace(".xlsx", ".pdf")
     sheets.Worksheets([1]).Select()
-    work_sheets.PageSetup.Zoom = False
-    work_sheets.PageSetup.FitToPagesTall = True
-    work_sheets.PageSetup.FitToPagesWide = True
+    #work_sheets.PageSetup.Zoom = False
+    #work_sheets.PageSetup.FitToPagesTall = True
+    #work_sheets.PageSetup.FitToPagesWide = True
     work_sheets.ExportAsFixedFormat(0, out_pth)
     sheets.Close(SaveChanges=False)

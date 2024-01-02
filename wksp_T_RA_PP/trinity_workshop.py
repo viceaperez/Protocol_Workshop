@@ -91,15 +91,17 @@ class TrinityWorkshop:
             if re.match("PK", hasta_main):
                 return cls.planos["PK"]
 
-        if re.match("^SKD1(.)+$", desde_main, re.IGNORECASE):
-            if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
+        if re.match("^SKD1(.)*$", desde_main, re.IGNORECASE):
+            if re.match("^SKD1(.)*$", hasta_main, re.IGNORECASE):
                 return cls.planos["SalaPK_1_2"]
-            if re.match("^SKD2(.)+$", hasta_main, re.IGNORECASE):
+            elif re.match("^SKD2(.)*$", hasta_main, re.IGNORECASE):
                 return cls.planos["PK"]
-            if re.match("^SKD3(.)+$", hasta_main, re.IGNORECASE):
+            elif re.match("^SKD3(.)*$", hasta_main, re.IGNORECASE):
                 return cls.planos["PK"]
-            if re.match("^SKD4(.)+$", hasta_main, re.IGNORECASE):
+            elif re.match("^SKD4(.)*$", hasta_main, re.IGNORECASE):
                 return cls.planos["PK"]
+            else:
+                return cls.planos["Planta"]
         if re.match("^SKD2(.)+$", desde_main, re.IGNORECASE):
             if re.match("^SKD1(.)+$", hasta_main, re.IGNORECASE):
                 return cls.planos["SalaPK_1_2"]
@@ -164,7 +166,7 @@ class TrinityWorkshop:
         raise Exception("A: " + desde + "\nB: " + hasta + "\nNo coincide con plano")
         # print("A: " + desde + "\nB: " + hasta + "\nNo coincide con plano")
 
-    pass
+        pass
 
     @classmethod
     def resolve_uso(cls, tag):
@@ -187,6 +189,16 @@ class TrinityWorkshop:
             return int(calibre.strip().split("x")[0])
 
     pass
+
+    @classmethod
+    def ensure_paths(cls):
+        try:
+            os.makedirs(cls.res_pth, exist_ok=True)
+            os.makedirs(cls.origin_pth, exist_ok=True)
+            os.makedirs(cls.destiny_pth, exist_ok=True)
+        except:
+            pass
+        pass
 
 
 class TendidoWorkshop:
@@ -607,6 +619,7 @@ class PuntoPuntoWorkshop:
     }
 
     circuitos: list[Circuito] = []
+    current_circ: Circuito = None
 
     @classmethod
     def fetch(cls):
@@ -649,6 +662,7 @@ class PuntoPuntoWorkshop:
             cls.ok = True
             cls.flush()
             fields = TrinityWorkshop.find(cls.tags_to_gen[i])
+            cls.current_circ = cls.buscar_circ(fields["tag"])
             cls.inprint(fields, cls.corrs[i])
 
             if cls.ok:
@@ -656,7 +670,7 @@ class PuntoPuntoWorkshop:
                 pth = TrinityWorkshop.destiny_pth + "\\" + name
                 cls.working_template.save(pth)
             else:
-                name = "COMPLETAR "+cls.corrs[i] + "-PP_" + fields["tag"] + ".xlsx"
+                name = "COMPLETAR " + cls.corrs[i] + "-PP_" + fields["tag"] + ".xlsx"
                 pth = TrinityWorkshop.destiny_pth + "\\" + name
                 cls.working_template.save(pth)
         pass
@@ -683,10 +697,10 @@ class PuntoPuntoWorkshop:
         cls.toggle_checks(fields["tag"])
         cls.fields["tag"].value = fields["tag"]
         cls.fields["tag_2"].value = fields["tag"]
-        cls.fields["desde"].value = fields["desde"]
-        cls.fields["desde_2"].value = fields["desde"]
-        cls.fields["hasta"].value = fields["hasta"]
-        cls.fields["hasta_2"].value = fields["hasta"]
+        cls.fields["desde"].value = cls.current_circ.puntas[0].desde
+        cls.fields["desde_2"].value = cls.current_circ.puntas[0].desde
+        cls.fields["hasta"].value = cls.current_circ.puntas[0].hasta
+        cls.fields["hasta_2"].value = cls.current_circ.puntas[0].hasta
         cls.fields["longitud"].value = fields["largo"]
         cls.fields["instrumento_tipo"].value = "Pinza Amperimetrica"
         cls.fields["instrumento_marca"].value = "Fluke"
@@ -707,7 +721,7 @@ class PuntoPuntoWorkshop:
             cls.fields["aislacion"].value = pts[2]
         else:
             pts = fields["homologacion"].split(" ")
-            cls.fields["capacidad"].value = cls.resolve_capacidad(pts[0], pts[1])
+            cls.fields["capacidad"].value = cls.resolve_capacidad(pts[0], pts[1]) + " A"
             cls.fields["seccion"].value = pts[0] + " " + re.sub("Â²", "²", pts[1])
             try:
                 cls.fields["aislacion"].value = pts[2]
@@ -746,10 +760,10 @@ class PuntoPuntoWorkshop:
         offset = 0
         if re.match("AWG", unidad, re.IGNORECASE):
             offset += 1
-        seccion = cls.get_seccion(calibre)
+        seccion = cls.get_seccion(calibre).replace(",", ".")
         for e in cls.capacidades:
             if e[offset] == seccion:
-                return e[2]
+                return e[2].strip()
         raise Exception("calibre no encontrado")
         pass
 
@@ -793,6 +807,7 @@ class PuntoPuntoWorkshop:
     def buscar_circ(cls, tag) -> Circuito:
         for circ in cls.circuitos:
             if circ.tag == tag:
+                cls.current_circ = circ
                 return circ
             pass
         cls.ok = False
@@ -800,14 +815,15 @@ class PuntoPuntoWorkshop:
         pass
 
 
-kinds = [
-    "T",
-    "RA",
+kind = [
+        "T",
+        "RA",
     "PP",
 ]
 
 
 def start(kinds: list[str]):
+    TrinityWorkshop.ensure_paths()
     TrinityWorkshop.fetch()
     if "T" in kinds:
         TendidoWorkshop.gen()
@@ -820,6 +836,6 @@ def start(kinds: list[str]):
     pass
 
 
-start(kinds)
+start(kind)
 
 pass

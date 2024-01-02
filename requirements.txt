@@ -5,7 +5,5 @@ et-xmlfile == 1.1.0
 openpyxl==2.6.2
 pyautocad==0.2.0
 packaging == 23.1
-pip == 22.3.1
 pywin32 == 306
-setuptools = 65.5.1
-wheel == 0.38.4
+numpy

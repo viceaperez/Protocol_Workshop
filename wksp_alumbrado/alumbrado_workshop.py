@@ -24,13 +24,14 @@ class Alumb:
 class AlumbradoWorkshop:
     project_pth: str = os.getcwd()
     res_pth: str = project_pth + "\\res"
+    origin_pth :str = project_pth + "\\origin_files"
     destiny_pth: str = project_pth + "\\destiny_files"
     src_pth = res_pth + "\\matriz.txt"
 
-    starting_corr = 2
+    starting_corr = 1
 
     patios_excluidos = [
-        "CI",
+        # "CI",
         # "PK",
         # "PJ",
         # "PZ",
@@ -89,12 +90,21 @@ class AlumbradoWorkshop:
         return re.sub("D[KJ]", "Diagonal ", sector)
         pass
 
+    @classmethod
+    def ensure_paths(cls):
+        try:
+            os.makedirs(cls.res_pth, exist_ok=True)
+            os.makedirs(cls.origin_pth, exist_ok=True)
+            os.makedirs(cls.destiny_pth, exist_ok=True)
+        except:
+            pass
+        pass
+
     pass
 
 
 class AlumbradoCanalizadoWorkshop:
     # todo
-    pass
 
     @classmethod
     def fetch(cls):
@@ -110,6 +120,10 @@ class AlumbradoCanalizadoWorkshop:
             cls.working_template.save(pth)
             pass
 
+    @classmethod
+    def inprint(cls, data):
+
+        pass
 
 
 class AlumbradoMontajeWorkshop:
@@ -128,8 +142,8 @@ class AlumbradoMontajeWorkshop:
         "elaboro_nombre": ws.cell(36, 2),
         "elaboro_cargo": ws.cell(38, 2),
         "elaboro_fecha": ws.cell(40, 2),
-        "reviso_nombre": ws.cell(5, 36),
-        "reviso_cargo": ws.cell(38, 5),
+        "revisa_nombre": ws.cell(36, 5),
+        "revisa_cargo": ws.cell(38, 5),
         "reviso_fecha": ws.cell(40, 5)
     }
 
@@ -154,6 +168,10 @@ class AlumbradoMontajeWorkshop:
         cls.fields["fecha_trabajo"].value = "23-10-2023"
         cls.fields["descripcion"].value = alumb.tipo + " / " + alumb.tag
         cls.fields["area_trabajo"].value = cls.translate_area(alumb.patio, alumb.ubicacion)
+        cls.fields["elaboro_nombre"].value = "Nombre: Camilo Miño Miño"
+        cls.fields["elaboro_cargo"].value = "Cargo: Supervisor Eléctrico"
+        cls.fields["revisa_nombre"].value = "Nombre: Cheslau Mankowski"
+        cls.fields["revisa_cargo"].value = "Cargo: Administrador de Contrato"
         pass
 
     @classmethod
@@ -178,13 +196,14 @@ class AlumbradoConexionadoWorkshop:
 
 kinds = [
     "Montaje",
-    "Canalizado",
-    "Tendido",
-    "Conexionado",
+    #"Canalizado",
+    #"Tendido",
+    #"Conexionado",
 ]
 
 
 def start(kinds: list[str]):
+    AlumbradoWorkshop.ensure_paths()
     AlumbradoWorkshop.fetch()
     if "Montaje" in kinds:
         AlumbradoMontajeWorkshop.fetch()
