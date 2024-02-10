@@ -6,30 +6,27 @@ acad = Autocad(create_if_not_exists=True)
 
 # switch_caching(True)
 a = acad.doc
-b = a.Blocks
-c = []
-for block in b:
-    c.append(block)
-    pass
-# d = acad.iter_objects()
-d = []
 lineas = []
 tipos_cruz = []
 tipos_t = []
+
+tramos = []
+
+ignored_layers = [
+        "OTROS",
+        "Chicotes",
+        "0"
+    ]
+
 for i in acad.iter_objects():
-    if not hasattr(i, "EffectiveName"):
-        lineas.append(i)
+    if i.Layer in ignored_layers:
         continue
-    if i.EffectiveName == "Conex. Tipo Cruz para clable 4.0":
-        tipos_cruz.append(i)
+    if hasattr(i, "EntityName"):
+        if i.EntityName == "AcDbLine":
+            lineas.append(i)
         continue
-        pass
-    if i.EffectiveName == "Conex. Tipo T. para cable 4.0":
-        tipos_t.append(i)
-        continue
-        pass
-    d.append(i)
     pass
+
 largo_cable_4 = 0
 for i in lineas:
     largo_cable_4 += i.Length

@@ -12,7 +12,7 @@ res_pth: str = project_pth + "\\res"
 destiny_pth: str = project_pth + "\\destiny_files"
 base_fl_pth: str = res_pth + "\\base.xlsx"
 base_fl: Workbook = openpyxl.load_workbook(base_fl_pth)
-lista_fl_pth: str = res_pth + "\\lista.xlsx"
+lista_fl_pth: str = res_pth + "\\LOG Protocolos Aterrado MMI.xlsx"
 lista_fl: Workbook = openpyxl.load_workbook(lista_fl_pth, read_only=True)
 
 
@@ -29,20 +29,13 @@ def ensure_paths():
 ensure_paths()
 
 sectores = {
-    "PK": "Patio 500kV",
     "PJ": "Patio 220kV",
-    "PATR": "Patio ATR",
-    "PZ": "Patio Reactores"
+    "Malla Madre": "Malla Madre",
 }
 
 planos = {
-    "planta": "SNN4008-E-PRN-13-EL-PL-0001-L0001",
-    "pk": "SNN4008-E-PRN-13-EL-PL-0001-L0002",
-    "pk-d": "SNN4008-E-PRN-13-EL-PL-0001-L0003",
-    "pj": "SNN4008-E-PRN-13-EL-PL-0006-L0001",
-    "pj-d": "SNN4008-E-PRN-13-EL-PL-0006-L0002",
-    "atr_r": "SNN4008-E-PRN-13-EL-PL-0007-L0001",
-    "atr_r-d": "SNN4008-E-PRN-13-EL-PL-0007-L0002",
+    "pj": "SNN4008-E-MMI-13-EL-PL-0001-L0001",
+    "pj-d": "SNN4008-E-MMI-13-EL-PL-0001-L0002",
 }
 
 ws: Worksheet = base_fl.worksheets[0]
@@ -109,12 +102,10 @@ def resolve_elemento(tag_elem) -> Elemento:
 
 
 def resolve_plano(sector):
-    if sector == "PK":
-        return planos["pk"]
+    if sector == "Malla Madre":
+        return planos["pj"]
     if sector == "PJ":
         return planos["pj"]
-    if sector == "PATR" or sector == "PZ":
-        return planos["atr_r"]
     pass
 
 

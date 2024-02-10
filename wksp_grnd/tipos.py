@@ -7,7 +7,7 @@ from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
 # TODO: MODIFICAR EL ORIGEN DE DATOS DE ELEMENTOS PARA DISTINTOS PATIOS
-origen = "elementosPZ.xlsx"
+origen = "malla_madre.xlsx"
 
 project_pth: str = os.getcwd()
 res_pth: str = project_pth + "\\res"
