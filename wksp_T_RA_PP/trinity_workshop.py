@@ -71,7 +71,7 @@ class TrinityWorkshop:
         "SalaPJ_3": "SNN4008-E-PRN-14-EL-PL-0012-L0001",
         "PATR": "SNN4008-E-PRN-14-EL-PL-0004-L0001",
         "PZ": "SNN4008-E-PRN-14-EL-PL-0005-L0001",
-        "SSGG": "SNN4008-E-PRN-14-EL-PL-0010-L0001"
+        "SSGG": "SNN4008-E-PRN-14-EL-PL-0007-L0001"
     }
 
     @classmethod
