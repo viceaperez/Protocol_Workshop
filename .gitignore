@@ -1,5 +1,4 @@
 /venv
 /.idea
-
-*.xlsx
+**/destiny_files
 *.pdf
