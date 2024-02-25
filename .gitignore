@@ -2,3 +2,4 @@
 /.idea
 **/destiny_files
 *.pdf
+**~$**.xlsx
