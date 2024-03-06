@@ -31,11 +31,21 @@ ensure_paths()
 sectores = {
     "PJ": "Patio 220kV",
     "Malla Madre": "Malla Madre",
+    "sjd3": "Sala 3",
+    "sjd4": "Sala 4",
+    "sjd5": "Sala 5",
+    "sjd6": "Sala 6",
+    "ssgg": "Sala Servicios Generales",
 }
 
 planos = {
     "pj": "SNN4008-E-MMI-13-EL-PL-0001-L0001",
     "pj-d": "SNN4008-E-MMI-13-EL-PL-0001-L0002",
+    "sjd3": "SNN4008-E-MMI-13-EL-PL-0003-L0001",
+    "sjd4": "SNN4008-E-MMI-13-EL-PL-0003-L0001",
+    "sjd5": "SNN4008-E-MMI-13-EL-PL-0003-L0001",
+    "sjd6": "SNN4008-E-MMI-13-EL-PL-0003-L0001",
+    "ssgg": "SNN4008-E-MMI-13-EL-PL-0002-L0002",
 }
 
 ws: Worksheet = base_fl.worksheets[0]
@@ -137,7 +147,7 @@ def toggle_soldaduras(elemento: Elemento):
 
 def toggle_approval():
     for j in range(0, 12):
-        set(25 + j, 15, "✔")
+        set(26 + j, 15, "✔")
     pass
 
 

@@ -1,4 +1,5 @@
 import os
+import re
 
 import openpyxl
 from openpyxl.workbook import Workbook
@@ -15,7 +16,6 @@ lst_log: dict[str:str] = {}
 
 out = open(destiny_pth + "\\out.txt", "w")
 for e in lst:
-
     '''
     tmp: Workbook = openpyxl.load_workbook(origin_pth + "\\" + e)
     sh: Worksheet = tmp.worksheets[0]
@@ -24,7 +24,7 @@ for e in lst:
     '''
 
     corr = e.split("-")[0]
-    tag = e.split("_")[1].strip(".xlsx")
+    tag = re.sub(re.compile("\\d\\d?\\d?\\d?-T_"), "", e).strip(".xlsx")
     out.write(tag + "\t" + str(corr) + "\n")
     pass
 
